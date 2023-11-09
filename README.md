@@ -28,7 +28,7 @@ Initializing the script:
 create a new instance of OpenVPN server
 
 'Welcome to this OpenVPN road warrior installer!'
-1. Which IPv4 address should be used?:  (Provide the IPV4 adddres of the network interface you want OpenVPN listening)
+1. Which IPv4 address should be used?:  (Provide the IPV4 network interface you want OpenVPN listening)
 2. What port should OpenVPN listen to:  (Default port 1194)
 3. Select a DNS server for the clients: (Google DNS are fast DNS server).
 4. Enter a name for the first client:   (type your "user name" for create a client certificate)
