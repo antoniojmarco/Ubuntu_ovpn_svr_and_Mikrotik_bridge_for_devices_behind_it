@@ -59,12 +59,16 @@ cert    server.crt
 key     server.key
 dh      dh.pem
 #server cfg
-server 10.0.0.0 255.255.255.0
+server 10.8.0.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
 #push pools
 push "redirect-gateway def1 bypass-dhcp"
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
+#push "route 10.0.0.0 255.255.252.0"
+#push "route 172.16.0.0 255.255.0.0"
+#
+#route 172.16.0.0 255.255.0.0
 #
 keepalive 10 120
 user nobody
