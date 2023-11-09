@@ -84,6 +84,13 @@ After script finish create Rules to open port to the internet:
 sudo ufw allow ssh
 sudo ufw allow 1194/tcp  # (1194 default) or service port defined
 ```
+#### Routing 
+Route tables depend on each scenario:
+
+ej: route traffic from Mikrotik LAN to tunnel peer
+```bash
+sudo ip route add 172.16.0.0/16 via 10.8.0.2
+```
 Now you can start the OpenVPN service:
 ```bash
 sudo systemctl start openvpn-server@server.service 
