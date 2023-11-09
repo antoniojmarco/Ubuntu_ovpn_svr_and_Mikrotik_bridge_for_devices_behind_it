@@ -122,9 +122,10 @@ OpenVPN Clients connected
 cat /var/log/openvpn-status.log
 ```
 OpenVPN connection status
+```bash
 iptables -t nat -S
 ip route list
-
+```
 
 That's all. Your OpenVPN server is ready!  Please note, if your OpenVPN server assigns the same IP's for all OpenVPN clients you need to use different certificates for all your vpn clients (go to 'Creating/deleting additional keys/certificates' step from this guide). Also keep in mind, commonName and name in your clients keys must be uniqe. For instance: client1, client2, client3, etc.
 - - -
