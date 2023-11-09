@@ -145,7 +145,7 @@ Reset previous config (if necessary)
 
 ```bash
 /system reset-configuration no-defaults=yes skip-backup=yes
-Set passwd /password
+set passwd /password
 ```
 Local (LAN) interface config
 
@@ -163,7 +163,7 @@ Internet (WAN)connection interface config
 
 ```bash
 
-
+UC
 
 
 ```
