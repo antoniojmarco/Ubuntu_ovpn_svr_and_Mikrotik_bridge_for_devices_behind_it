@@ -102,6 +102,9 @@ crt: /etc/openvpn/server/easy-rsa/pki/issued/client.crt
 scp client.crt admin@xx.xx.xx.xx:/
 scp client.key admin@xx.xx.xx.xx:/
 ```
+
+#### Troubleshooting
+
 Verify. Check if the device for the tunnel has appeared:
 ```bash
 ifconfig tun0
@@ -110,6 +113,19 @@ Is assigned address and port for OpenVPN server?:
 ```bash
 netstat -tupln
 ```
+Errors and warnings
+```bash
+nano /var/log/openvpn.log
+```
+OpenVPN Clients connected
+```bash
+cat /var/log/openvpn-status.log
+```
+OpenVPN connection status
+iptables -t nat -S
+ip route list
+
+
 That's all. Your OpenVPN server is ready!  Please note, if your OpenVPN server assigns the same IP's for all OpenVPN clients you need to use different certificates for all your vpn clients (go to 'Creating/deleting additional keys/certificates' step from this guide). Also keep in mind, commonName and name in your clients keys must be uniqe. For instance: client1, client2, client3, etc.
 - - -
 
@@ -292,7 +308,6 @@ Flags: X - disabled, R - running
 ```
 ```bash
 interface ovpn-client monitor 0
-
   status: connected
   uptime: 18h38m31s
   encoding: BF-128-CBC/SHA1
@@ -394,11 +409,23 @@ ip dns set servers=8.8.8.8
 ```bash
 ip dns cache flush
 ```
-
 #### Finally Write configuration
 
 ```bash
 export file=configv1_router_openvpn_client
+```
+
+#### Troubleshooting
+
+OpenVPN connection status
+```bash
+interface ovpn-client monitor 0
+```
+openvpn status:
+```bash
+/interface ovpn-client print
+/ip route print
+/ip firewall nat print 
 ```
 
 - - -
