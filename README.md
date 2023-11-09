@@ -32,7 +32,6 @@ create a new instance of OpenVPN server
 2. What port should OpenVPN listen to:  (Default port 1194)
 3. Select a DNS server for the clients: (Google DNS are fast DNS server).
 4. Enter a name for the first client:   (type your "user name" for create a client certificate)
-"Press any key to continue..."
 
 Once the server is installed, the menu changes and will be as follows
 
