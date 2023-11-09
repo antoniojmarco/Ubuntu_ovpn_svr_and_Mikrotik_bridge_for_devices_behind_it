@@ -1,4 +1,5 @@
-# Ubuntu 20.04 + OpenVPN Server + Mikrotik OVPN client + bridge for device behind it
+
+ # Ubuntu 20.04 + OpenVPN Server + Mikrotik OVPN client + bridge for device behind it
 Tested on Ubuntu 20.04 OpenVPN (as server) and  MikroTik RBM33G 6.49.10 (as client).
 
 ## Step 1. Ubuntu OpenVPN Server installation.
@@ -112,16 +113,14 @@ netstat -tupln
 That's all. Your OpenVPN server is ready!  Please note, if your OpenVPN server assigns the same IP's for all OpenVPN clients you need to use different certificates for all your vpn clients (go to 'Creating/deleting additional keys/certificates' step from this guide). Also keep in mind, commonName and name in your clients keys must be uniqe. For instance: client1, client2, client3, etc.
 - - -
 
-## Step 2. Mikrotik router as OpenVPN Client.
-### Mikrotik OVPN client installation.
-#### Please, keep in mind:
-* UDP is not supported
-* LZO compression is not supported
-* Username/passwords are not mandatory, so the best practice is certificate auth
-##### :
+## Step 2. Mikrotik baseline configuration
+### 
+
 Enable ssh connection for login in 
 https://help.mikrotik.com/docs/display/ROS/First+Time+Configuration#FirstTimeConfiguration-ConfiguringIPAccess
+
 Acces to the router
+
 ```bash
 ssh admin@xx.xx.xx.xx
 ```
@@ -140,34 +139,111 @@ All the code in this repo is for version 6.49.10. If yours is older than that go
 ```bash
 system package update download
 ```
-#### Mikrotik basic config
+#### Mikrotik basic router config
 Reset previous config (if necessary)
 
 ```bash
 /system reset-configuration no-defaults=yes skip-backup=yes
 set passwd /password
 ```
-Local (LAN) interface config
+#### Create Local (LAN) interface
 
 ```bash
 /interface bridge add name=local
 /interface bridge port add interface=ether2 bridge=local
 /ip address add address=172.16.0.250/16 interface=local
 ```
-Internet (WAN)connection interface config
+
+#### Create Internet (WAN) connection interface 
+
+Dynamic address configuration is the simplest one. You just need to set up a DHCP client on the public interface. DHCP client will receive information from an internet service provider (ISP) and set up an IP address, DNS, NTP servers, and default route for you.
 
 ```bash
 /ip dhcp-client add disabled=no interface=ether1
 ```
 
+#### MAC Connectivity Access
+
+y default mac server runs on all interfaces, so we will disable default all entry and add a local interface to disallow MAC connectivity from the WAN port. MAC Telnet Server feature allows you to apply restrictions to the interface "list".
 
 ```bash
-
-UC
-
-
+/interface list add name=listBridge
+/interface list member add list=listBridge interface=local
+/tool mac-server 
+set allowed-interface-list=listBridge
+/tool mac-server mac-winbox 
+set allowed-interface-list=listBridge
 ```
 
+#### Neighbor Discovery
+
+MikroTik Neighbor discovery protocol is used to show and recognize other MikroTik routers in the network. Disable neighbor discovery on public interfaces.
+
+```bash
+/ip neighbor discovery-settings set discover-interface-list=listBridge
+```
+
+#### IP Connectivity Access
+
+Besides the fact that the firewall protects your router from unauthorized access from outer networks, it is possible to restrict username access for the specific IP address
+
+```bash
+/user set 0 allowed-address=x.x.x.x/yy
+```
+IP connectivity on the public interface must be limited in the firewall. We will accept only ICMP(ping/traceroute), IP Winbox, and ssh access.
+
+```bash
+/ip firewall filter
+  add chain=input connection-state=established,related action=accept comment="accept established,related";
+  add chain=input connection-state=invalid action=drop;
+  add chain=input in-interface=ether1 protocol=icmp action=accept comment="allow ICMP";
+  add chain=input in-interface=ether1 protocol=tcp port=8291 action=accept comment="allow Winbox";
+  add chain=input in-interface=ether1 protocol=tcp port=22 action=accept comment="allow SSH";
+  add chain=input in-interface=ether1 action=drop comment="block everything else";
+```
+
+#### Administrative Services
+
+Although the firewall protects the router from the public interface, you may still want to disable RouterOS services. Most of RouterOS administrative tools are configured at  the /ip service menu; Keep only secure ones,
+
+```bash
+/ip service disable telnet,ftp,www,api
+```
+
+#### NAT Configuration
+
+At this point, PC is not yet able to access the Internet, because locally used addresses are not routable over the Internet. Remote hosts simply do not know how to correctly reply to your local address.
+The solution for this problem is to change the source address for outgoing packets to routers public IP. This can be done with the NAT rule:
+
+```bash
+/ip firewall nat
+  add chain=srcnat out-interface=ether1 action=masquerade
+```
+
+#### Port Forwarding
+
+Some client devices may need direct access to the internet over specific ports. For example, a client with an IP address 192.168.88.254 must be accessible by Remote desktop protocol (RDP).After a quick search on Google, we find out that RDP runs on TCP port 3389. Now we can add a destination NAT rule to redirect RDP to the client's PC.
+
+```bash
+/ip firewall nat
+  add chain=dstnat protocol=tcp port=3389 in-interface=ether1 \
+    action=dst-nat to-address=192.168.xx.xx
+```
+
+#### Write configuration
+
+```bash
+export file=configv1_router_only
+```
+
+
+## Step 3. Mikrotik router as OpenVPN Client.
+### Mikrotik OVPN client installation.
+#### Please, keep in mind:
+* UDP is not supported
+* LZO compression is not supported
+* Username/passwords are not mandatory, so the best practice is certificate auth
+##### :
 
 #### Mikrotik config OpenVPN client
 You'll need some files from your OpenVPN server or VPN provider, only 2 files are required: client.crt  client.key. Upload and import these certificates to your Mikrotik.
@@ -318,5 +394,12 @@ ip dns set servers=8.8.8.8
 ```bash
 ip dns cache flush
 ```
+
+#### Finally Write configuration
+
+```bash
+export file=configv1_router_openvpn_client
+```
+
 - - -
 ## Enjoy!!
