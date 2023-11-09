@@ -1,5 +1,6 @@
 # Ubuntu 20.04 + OpenVPN Server + Mikrotik OVPN client + bridge for device behind it
 Tested on Ubuntu 20.04 OpenVPN (as server) and  MikroTik RBM33G 6.49.10 (as client).
+
 ## Step 1. Ubuntu OpenVPN Server installation.
 You already have server with installed Ubuntu 20.04. Let's install OpenVPN svr!
 Find and note down your local IP address and your public IP address 
@@ -9,12 +10,13 @@ ip a show eth0
 dig +short myip.opendns.com @resolver1.opendns.com
 dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'
 ```
-Download and run openvpn-install.sh script
-https://raw.githubusercontent.com/Nyr/openvpn-install/master/openvpn-install.sh
-
+Update system
 ```bash
 sudo apt update
-sudo apt upgrade
+sudo apt upgradeh
+```
+Download and run openvpn-install.sh script
+```bash
 wget https://git.io/vpn -O openvpn-install.sh
 chmod +x openvpn-install.sh
 ```
@@ -25,12 +27,14 @@ sudo ./openvpn-install.sh
 Initializing the script:
 create a new instance of OpenVPN server
 
--Firt, provide the IPV4 adddres of the network interface you want OpenVPN listening to: (public or local)
--Select protocol do you want for incoming connections (1. UDP. 2 TCP)
--Choose DNS server. Google DNS are fast DNS server and reached from anywhere on the Internet.
--Finally,  type your "user name" for create a client certificate
+'Welcome to this OpenVPN road warrior installer!'
+1. Which IPv4 address should be used?:  (Provide the IPV4 adddres of the network interface you want OpenVPN listening)
+2. What port should OpenVPN listen to:  (Default port 1194)
+3. Select a DNS server for the clients: (Google DNS are fast DNS server).
+4. Enter a name for the first client:   (type your "user name" for create a client certificate)
+"Press any key to continue..."
 
-Script Menu:
+Which protocol should OpenVPN use
 
 Select an option
 1. Add a new client
@@ -38,8 +42,7 @@ Select an option
 3. Remove OpenVPN
 4. Exit
 
-After that you can Modify openvpn server file  defaults if is necesary:
-
+After that you can modify openvpn server file  defaults if is necesary:
 ```bash
 sudo nano /etc/openvpn/server/server.conf
 ```
