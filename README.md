@@ -34,7 +34,7 @@ create a new instance of OpenVPN server
 4. Enter a name for the first client:   (type your "user name" for create a client certificate)
 "Press any key to continue..."
 
-Which protocol should OpenVPN use
+Once the server is installed, the menu changes and will be as follows
 
 Select an option
 1. Add a new client
