@@ -134,6 +134,7 @@ cat /var/log/openvpn-status.log
 ```
 OpenVPN connection status
 ```bash
+sudo ufw status
 iptables -t nat -S
 ip route list
 tshark -i tuno
