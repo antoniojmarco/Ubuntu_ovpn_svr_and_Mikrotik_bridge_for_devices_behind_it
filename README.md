@@ -136,9 +136,14 @@ OpenVPN connection status
 ```bash
 iptables -t nat -S
 ip route list
-tcpdump -i tuno
+tshark -i tuno
 ```
-
+IPtables Troubleshooting
+were (x)== level of log in ther work flow:  https://martinber.github.io/arquitectura_de_redes/practica/iptables.html
+```bash
+iptables -t filter -I FORWARD (x) -d 10.0.0.2 -j LOG
+watch iptables -t filter -vL FORWARD
+```
 That's all. Your OpenVPN server is ready!  Please note, if your OpenVPN server assigns the same IP's for all OpenVPN clients you need to use different certificates for all your vpn clients (go to 'Creating/deleting additional keys/certificates' step from this guide). Also keep in mind, commonName and name in your clients keys must be uniqe. For instance: client1, client2, client3, etc.
 - - -
 
