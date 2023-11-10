@@ -53,7 +53,8 @@ local xxx.xxx.xxx.xxx #external ip of our vpn-server
 port 1194 #port
 proto tcp #protocol
 dev tun   #type
-#certs
+##
+
 ca      ca.crt
 cert    server.crt
 key     server.key
