@@ -449,6 +449,6 @@ Connectivity status:
 /ip address print
 /interface print
 ```
-
+https://forum.mikrotik.com/viewtopic.php?t=160707
 - - -
 ## Enjoy!!
