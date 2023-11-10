@@ -53,8 +53,7 @@ local xxx.xxx.xxx.xxx #external ip of our vpn-server
 port 1194 #port
 proto tcp #protocol
 dev tun   #type
-##
-
+#
 ca      ca.crt
 cert    server.crt
 key     server.key
@@ -437,7 +436,7 @@ interface ovpn-client monitor 0
 openvpn status:
 ```bash
 /interface ovpn-client print
-/ip route print
+/ip route print detail
 /ip firewall nat print 
 ```
 
