@@ -426,13 +426,12 @@ ip dns set servers=8.8.8.8
 #### Step 3. Clear your old DNS cache.
 ```bash
 ip dns cache flush
+/system reboot
 ```
 #### Finally Write configuration
-
 ```bash
 export file=configv1_router_openvpn_client
 ```
-
 #### Troubleshooting
 
 OpenVPN connection status
