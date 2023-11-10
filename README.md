@@ -433,17 +433,20 @@ ip dns cache flush
 ```bash
 export file=configv1_router_openvpn_client
 ```
+
 #### Troubleshooting
 
 OpenVPN connection status
 ```bash
 interface ovpn-client monitor 0
 ```
-openvpn status:
+Connectivity status:
 ```bash
 /interface ovpn-client print
 /ip route print detail
-/ip firewall nat print 
+/ip firewall nat print
+/ip address print
+/interface print
 ```
 
 - - -
