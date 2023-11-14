@@ -137,10 +137,10 @@ OpenVPN connection status
 sudo ufw status
 iptables -t nat -S
 ip route list
-tshark -i tuno
+tshark -i tun0
 ```
 IPtables Troubleshooting
-were (x)== level of log in ther work flow:  https://martinber.github.io/arquitectura_de_redes/practica/iptables.html
+were (x)== level of log in ther work flow: https://inai.de/images/nf-packet-flow.png
 ```bash
 iptables -t filter -I FORWARD (x) -d 10.0.0.2 -j LOG
 watch iptables -t filter -vL FORWARD
