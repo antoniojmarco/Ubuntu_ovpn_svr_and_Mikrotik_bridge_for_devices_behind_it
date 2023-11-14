@@ -445,7 +445,6 @@ Connectivity status:
 /interface ovpn-client print
 /ip route print detail
 /ip firewall nat print
-/ip firewall nat print
 /ip address print
 /interface print
 ```
