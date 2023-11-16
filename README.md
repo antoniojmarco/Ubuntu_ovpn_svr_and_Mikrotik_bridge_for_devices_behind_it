@@ -429,8 +429,11 @@ ip dns set servers=8.8.8.8
 ip dns cache flush
 /system reboot
 ```
-#### Finally Write configuration
+#### clear logs and Finally Write configuration
 ```bash
+/system logging action set memory memory-lines=1
+/system logging action set memory memory-lines=1000
+
 export file=configv1_router_openvpn_client
 ```
 
