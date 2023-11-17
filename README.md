@@ -260,7 +260,11 @@ Some client devices may need direct access to the internet over specific ports. 
 
 ```bash
 /ip firewall nat
-  add chain=dstnat protocol=tcp port=18080 in-interface=ether1 action=dst-nat to-address=172.16.0.252
+#  port hhtp -> (18080)
+add action=dst-nat chain=dstnat comment="Port forwarding DNAT (in traffic)"  in-interface=ovpn-client port=18080 protocol=tcp to-addresses=172.16.1.252 to-ports=18080
+# port 554 -> (1554)
+add action=dst-nat chain=dstnat comment="Port forwarding DNAT ((in traffic)"  in-interface=ovpn-client port
+=1554 protocol=tcp to-addresses=172.16.1.252 to-ports=1554
 ```
 
 #### Write configuration
@@ -445,7 +449,7 @@ ip dns cache flush
 ```bash
 /system logging action set memory memory-lines=1
 /system logging action set memory memory-lines=1000
-
+/
 export file=configv1_router_openvpn_client
 ```
 
