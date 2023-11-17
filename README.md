@@ -202,6 +202,7 @@ MAC server section allows you to configure MAC Telnet Server, MAC WinBox Server 
 ```bash
 /interface list add name=listBridge
 /interface list member add list=listBridge interface=ether2
+/interface list member add list=listBridge interface=ether3
 /tool mac-server 
 set allowed-interface-list=listBridge
 /tool mac-server mac-winbox 
@@ -240,7 +241,7 @@ IP connectivity on the public interface must be limited in the firewall. We will
 Although the firewall protects the router from the public interface, you may still want to disable RouterOS services. Most of RouterOS administrative tools are configured at  the /ip service menu; Keep only secure ones,
 
 ```bash
-/ip service disable telnet,ftp,www,api
+/ip service disable telnet,ftp,api
 ```
 
 #### NAT Configuration
@@ -259,12 +260,10 @@ Some client devices may need direct access to the internet over specific ports. 
 
 ```bash
 /ip firewall nat
-  add chain=dstnat protocol=tcp port=3389 in-interface=ether1 \
-    action=dst-nat to-address=192.168.xx.xx
+  add chain=dstnat protocol=tcp port=18080 in-interface=ether1 action=dst-nat to-address=172.16.0.252
 ```
 
 #### Write configuration
-
 ```bash
 export file=configv1_router_only
 ```
