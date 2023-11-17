@@ -184,9 +184,7 @@ set passwd /password
 #### Create Local (LAN) interface
 
 ```bash
-/interface bridge add name=local
-/interface bridge port add interface=ether2 bridge=local
-/ip address add address=172.16.0.250/16 interface=local
+/ip address> add address=172.16.0.250/16 interface=ether2
 ```
 
 #### Create Internet (WAN) connection interface 
@@ -199,11 +197,11 @@ Dynamic address configuration is the simplest one. You just need to set up a DHC
 
 #### MAC Connectivity Access
 
-y default mac server runs on all interfaces, so we will disable default all entry and add a local interface to disallow MAC connectivity from the WAN port. MAC Telnet Server feature allows you to apply restrictions to the interface "list".
+MAC server section allows you to configure MAC Telnet Server, MAC WinBox Server and MAC Ping Server on RouterOS device.
 
 ```bash
 /interface list add name=listBridge
-/interface list member add list=listBridge interface=local
+/interface list member add list=listBridge interface=ether2
 /tool mac-server 
 set allowed-interface-list=listBridge
 /tool mac-server mac-winbox 
