@@ -331,8 +331,17 @@ interface ovpn-client monitor 0
 ```
 #### Configure the firewall
 ```bash
-ip firewall filter print
+/ip firewall filter>
+add chain=forward action=passthrough 
+add chain=forward action=fasttrack-connection connection-state=established,related log=no log-prefix="" 
+add chain=forward action=accept connection-state=established,related log=no log-prefix="" 
+add chain=forward action=drop connection-state=invalid log=no log-prefix="" 
+add chain=forward action=drop connection-state=new connection-nat-state=!dstnat in-interface=ether1 log=
+no log-prefix="" 
+```
 
+ip firewall filter print
+```bash
 Flags: X - disabled, I - invalid, D - dynamic 
  0  D ;;; special dummy rule to show fasttrack counters
       chain=forward action=passthrough 
@@ -349,6 +358,7 @@ Flags: X - disabled, I - invalid, D - dynamic
  7    chain=input action=accept connection-state=related log=no log-prefix="" 
  8    chain=input action=drop in-interface=pppoe-out1 log=no log-prefix="" 
 ```
+
 #### Configure masquerade
 We add new masquerade NAT rule:
 ```bash
@@ -359,15 +369,16 @@ Check out it:
 ip firewall nat print
 
 Flags: X - disabled, I - invalid, D - dynamic 
- 0    chain=srcnat action=masquerade out-interface=pppoe-out1 log=no log-prefix="" 
+ 0    chain=srcnat action=masquerade out-interface=pppoe-out1 log=no log-prefix=""  
  1    chain=srcnat action=masquerade out-interface=ovpn-client log=no log-prefix=""
 ```
 #### Configure Policy Based Routing
 Here we add some resources that we wanna using through our OpenVPN client. We can use domains or ip's in address:
 ```bash
-ip firewall address-list add list="OpenVPN" address="somehost.com"
-ip firewall address-list add list="OpenVPN" address="xxx.xxx.xxx.xxx"
-ip firewall address-list add list="OpenVPN" address="xxx.xxx.xxx.xxx/xx"
+ip firewall address-list add list="OpenVPN" address="10.0.0.1"
+ip firewall address-list add list="OpenVPN" address="10.0.0.2"
+ip firewall address-list add list="OpenVPN" address="10.8.0.1"
+ip firewall address-list add list="OpenVPN" address="10.8.0.2"
 ```
 #### Configure mangle
 Then we set up mangle rule which marks packets coming from the local network and destined for the internet with a mark named 'vpn_traffic':
@@ -390,7 +401,9 @@ Flags: X - disabled, I - invalid, D - dynamic
 #### Configure routing
 Next we tell the router that all traffic with the 'vpn_traffic' mark should go through the VPN interface:
 ```bash
-ip route add gateway="ovpn-client" type="unicast" routing-mark="vpn_traffic"
+/ip route
+add gateway="ovpn-client" type="unicast" routing-mark="vpn_traffic"
+add dst-address=172.16.0.0/16 gateway=ovpn-client
 ```
 Check out it:
 ```bash
