@@ -380,7 +380,7 @@ ip firewall address-list add list="OpenVPN" address="10.0.0.2"
 ip firewall address-list add list="OpenVPN" address="10.8.0.1"
 ip firewall address-list add list="OpenVPN" address="10.8.0.2"
 /ip firewall filter>
-add action=accept chain=forward comment="Allow OpenVPN" in-interface=all-ppp protocol=tcp src-address-list=OpenVPN
+add action=accept chain=input comment="Allow OpenVPN" in-interface=all-ppp protocol=tcp src-address-list=OpenVPN
 ```
 #### Configure mangle
 Then we set up mangle rule which marks packets coming from the local network and destined for the internet with a mark named 'vpn_traffic':
