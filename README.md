@@ -258,13 +258,46 @@ The solution for this problem is to change the source address for outgoing packe
 
 Some client devices may need direct access to the internet over specific ports. For example, a client with an IP address 192.168.88.254 must be accessible by Remote desktop protocol (RDP).After a quick search on Google, we find out that RDP runs on TCP port 3389. Now we can add a destination NAT rule to redirect RDP to the client's PC.
 
+NAT CONFIG
+
+ITEM            IP         HTTP     SSH    video
+Router 0:  172.16.0.250    8080    22
+HM     1:  172.16.1.252   18080    12222   1554
+LAVA   2:  172.16.2.252   28080    22222
+LAVA   3:  172.16.3.252   38080    32222
+
 ```bash
 /ip firewall nat
-#  port hhtp -> (18080)
+```
+
+#  HM item1 
+```bash
+#  port http -> (18080)
 add action=dst-nat chain=dstnat comment="Port forwarding DNAT (in traffic)"  in-interface=ovpn-client port=18080 protocol=tcp to-addresses=172.16.1.252 to-ports=18080
+
+# port ssh -> (12222)
+add action=dst-nat chain=dstnat comment="Port forwarding DNAT (in traffic)"  in-interface=ovpn-client port=12222 protocol=tcp to-addresses=172.16.1.252 to-ports=12222
+
 # port 554 -> (1554)
 add action=dst-nat chain=dstnat comment="Port forwarding DNAT ((in traffic)"  in-interface=ovpn-client port
 =1554 protocol=tcp to-addresses=172.16.1.252 to-ports=1554
+```
+
+#  LAVA 1 item 2
+```bash
+#  port http -> (28080)
+add action=dst-nat chain=dstnat comment="Port forwarding DNAT (in traffic)"  in-interface=ovpn-client port=28080 protocol=tcp to-addresses=172.16.2.252 to-ports=28080
+
+# port ssh -> (22222)
+add action=dst-nat chain=dstnat comment="Port forwarding DNAT (in traffic)"  in-interface=ovpn-client port=22222 protocol=tcp to-addresses=172.16.2.252 to-ports 22222
+```
+#  LAVA 2 item 3
+```bash
+#  port http -> (38080)
+add action=dst-nat chain=dstnat comment="Port forwarding DNAT (in traffic)"  in-interface=ovpn-client port=38080 protocol=tcp to-addresses=172.16.3.252 to-ports=38080
+
+# port ssh -> (32222)
+add action=dst-nat chain=dstnat comment="Port forwarding DNAT (in traffic)"  in-interface=ovpn-client port=32222 protocol=tcp to-addresses=172.16.2.252 to-ports 32222
 ```
 
 #### Write configuration
@@ -467,6 +500,8 @@ Connectivity status:
 /ip address print
 /interface print
 ```
-https://forum.mikrotik.com/viewtopic.php?t=160707
+CPU usage:
+```bash
+/tool profile cpu=all
 - - -
 ## Enjoy!!
