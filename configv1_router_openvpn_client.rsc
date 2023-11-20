@@ -1,4 +1,4 @@
-# nov/17/2023 12:23:01 by RouterOS 6.49.10
+# nov/20/2023 12:23:01 by RouterOS 6.49.10
 # software id = 6AVE-TZPR
 #
 # model = RBM33G
@@ -65,9 +65,23 @@ add action=mark-routing chain=prerouting dst-address-list=OpenVPN \
 add action=masquerade chain=srcnat comment="NATs (out traffic)" \
     out-interface=ether1
 add action=masquerade chain=srcnat out-interface=ovpn-client
-add action=dst-nat chain=dstnat comment="Port forwarding DNAT ((in traffic)" \
-    in-interface=ovpn-client port=18080 protocol=tcp to-addresses=\
-    172.16.1.252 to-ports=18080
+add action=dst-nat chain=dstnat comment=\
+    "Port forwarding DNAT (HM (in traffic)" in-interface=ovpn-client port=\
+    18080 protocol=tcp to-addresses=172.16.1.252 to-ports=18080
+add action=dst-nat chain=dstnat in-interface=ovpn-client port=1554 protocol=\
+    tcp to-addresses=172.16.1.252 to-ports=1554
+add action=dst-nat chain=dstnat in-interface=ovpn-client port=12222 protocol=\
+    tcp to-addresses=172.16.1.252 to-ports=12222
+add action=dst-nat chain=dstnat comment=\
+    "Port forwarding DNAT (LAVA 1 in traffic)" in-interface=ovpn-client port=\
+    28080 protocol=tcp to-addresses=172.16.2.252 to-ports=28080
+add action=dst-nat chain=dstnat in-interface=ovpn-client port=22222 protocol=\
+    tcp to-addresses=172.16.2.252 to-ports=22222
+add action=dst-nat chain=dstnat comment=\
+    "Port forwarding DNAT (LAVA 2 in traffic)" in-interface=ovpn-client port=\
+    32222 protocol=tcp to-addresses=172.16.2.252 to-ports=32222
+add action=dst-nat chain=dstnat in-interface=ovpn-client port=38080 protocol=\
+    tcp to-addresses=172.16.3.252 to-ports=38080
 /ip route
 add distance=1 gateway=ovpn-client
 add distance=1 dst-address=172.16.0.0/16 gateway=ovpn-client
