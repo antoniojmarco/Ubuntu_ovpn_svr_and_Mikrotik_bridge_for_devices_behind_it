@@ -259,12 +259,13 @@ The solution for this problem is to change the source address for outgoing packe
 Some client devices may need direct access to the internet over specific ports. For example, a client with an IP address 192.168.88.254 must be accessible by Remote desktop protocol (RDP).After a quick search on Google, we find out that RDP runs on TCP port 3389. Now we can add a destination NAT rule to redirect RDP to the client's PC.
 
 NAT CONFIG
-
+```bash
 ITEM            IP         HTTP     SSH    video
 Router 0:  172.16.0.250    8080    22
 HM     1:  172.16.1.252   18080    12222   1554
 LAVA   2:  172.16.2.252   28080    22222
 LAVA   3:  172.16.3.252   38080    32222
+```
 
 ```bash
 /ip firewall nat
