@@ -479,12 +479,11 @@ ip dns set servers=8.8.8.8
 ip dns cache flush
 /system reboot
 ```
-#### clear logs and Finally Write configuration
+#### clear logs and Finally 
 ```bash
 /system logging action set memory memory-lines=1
 /system logging action set memory memory-lines=1000
-/
-export file=configv1_router_openvpn_client
+
 ```
 
 #### Troubleshooting
@@ -535,4 +534,41 @@ Appears in Files space, after downloading it you can delete the file.
  export-certificate cert_xxx
 ```
 
+Backup Restore configuration:
+
+1. Backup
+```bash
+/system backup save
+```
+Download file
+
+2. Restores
+upload the file
+```bash
+/file print
+/system backup load name=<backupFileName>
+```
+As the backup is a global binary copy, even overwrites the Mac Address and therefore we will have to reconfigure it later
+
+```bash
+/interface ethernet set ether1 mac-address=48:A9:8A:94:45:2D
+```
+
+Backup Export Import configuration:
+
+1. Export
+```bash
+/
+export file=configv1_router_openvpn_client
+```
+Download certificates
+
+2. Import
+Upload certificates
+
+```bash
+certificate import file-name=client.crt
+certificate import file-name=client.key
+import file=configv1_router_openvpn_client
+```
 ## Enjoy!!
