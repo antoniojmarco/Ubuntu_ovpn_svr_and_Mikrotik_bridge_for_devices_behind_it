@@ -534,27 +534,29 @@ Appears in Files space, after downloading it you can delete the file.
  export-certificate cert_xxx
 ```
 
-Backup Restore configuration:
+Backup & Restore configuration:
 
 1. Backup
 ```bash
 /system backup save
 ```
-Download file
+Download backup file
 
-2. Restores
-upload the file
+2. Restore
+   
+upload backup the file
 ```bash
 /file print
 /system backup load name=<backupFileName>
 ```
-As the backup is a global binary copy, even overwrites the Mac Address and therefore we will have to reconfigure it later
+**** As the backup is a global binary copy, even overwrites the Mac Address and therefore we will have to reconfigure it later
 
 ```bash
 /interface ethernet set ether1 mac-address=48:A9:8A:94:45:2D
 ```
 
-Backup Export Import configuration:
+
+Export &  Import configuration:
 
 1. Export
 ```bash
