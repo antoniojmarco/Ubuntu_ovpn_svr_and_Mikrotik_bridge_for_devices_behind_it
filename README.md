@@ -501,8 +501,13 @@ Connectivity status:
 /ip address print
 /interface print
 ```
-CPU usage:
+Debug and CPU usage:
 ```bash
 /tool profile cpu=all
+/system logging add topics=ovpn,debug,!packet
+/system rule print
+/system logging remove numbers=[number of the ruke]
+/system rule reset numbers=[number of the rule]
+
 - - -
 ## Enjoy!!
