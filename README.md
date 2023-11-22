@@ -512,24 +512,24 @@ Debug and CPU usage:
 
 Creating Self-Signed Certificates:
 
-# 1. Create root certificate or CA (Certification Authority).
+1. Create root certificate or CA (Certification Authority).
 ```bash
 /certiﬁcate
 add name=cert_ca common-name=ca.xxx.com days-valid=365
 ```
-# 2. Certificate Self-Sign
+2. Certificate Self-Sign
 ```bash
 sign cert_ca
 ```
-# 3. Create certificate
+3. Create certificate
 ```bash
  add name=cert_xxx common-name=xx.xxxx.com days-valid=365
 ```
-# 5. Sign certificate with the previously created CA
+4. Sign certificate with the previously created CA
 ```bash
 sign cert_xxx ca=cert_ca
 ```
-# 5. Export certificate.
+5. Export certificate.
 Appears in Files space, after downloading it you can delete the file.
 ```bash
  export-certificate cert_xxx
