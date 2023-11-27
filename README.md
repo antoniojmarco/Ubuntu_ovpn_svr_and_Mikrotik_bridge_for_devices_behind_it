@@ -1,5 +1,5 @@
 
- # Ubuntu 20.04 + OpenVPN Server + Mikrotik OVPN client + bridge for device behind it
+ # Ubuntu 20.04 + OpenVPN Server 2.4.7 + Mikrotik OVPN client 2.5  + bridge for device behind it
 Tested on Ubuntu 20.04 OpenVPN (as server) and  MikroTik RBM33G 6.49.10 (as client).
 
 ## Step 1. Ubuntu OpenVPN Server installation.
@@ -20,7 +20,7 @@ Download and run openvpn-install.sh script
 ```bash
 wget https://git.io/vpn -O openvpn-install.sh
 chmod +x openvpn-install.sh
-```
+```6.
 Run openvpn-install.sh to install OpenVPN server
 ```bash
 sudo ./openvpn-install.sh
