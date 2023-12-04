@@ -489,6 +489,9 @@ ip dns cache flush
 
 OpenVPN connection status
 ```bash
+/system logging
+add topics=ovpn,debug
+
 interface ovpn-client monitor 0
 ```
 Connectivity status:
