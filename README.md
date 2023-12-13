@@ -34,6 +34,19 @@ auth-user-pass /etc/openvpn/client/cred.txt
 askpass /etc/openvpn/client/key.txt
 ```
 
+create Autostart
+
+Rename OpenVPNConfigFile.ovpn to OpenVPNConfigFile.conf
+```bash
+sudo mv OpenVPNConfigFile.ovpn OpenVPNConfigFile.conf
+sudo nano /etc/default/openvpn
+```
+```bash
+Uncomment AUTOSTART="all"
+```
+```bash
+sudo service openvpn start
+```
 
 https://askubuntu.com/questions/229800/how-to-auto-start-openvpn-client-on-ubuntu-cli
 
