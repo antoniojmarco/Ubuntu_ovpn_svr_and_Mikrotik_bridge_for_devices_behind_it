@@ -1,4 +1,4 @@
-
+.txt
  # Ubuntu 20.04 + OpenVPN Server 2.4.7 + Mikrotik OVPN client 2.5  + bridge for device behind it
 Tested on Ubuntu 20.04 OpenVPN (as server) and  MikroTik RBM33G 6.49.10 (as client).
 
