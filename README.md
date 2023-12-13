@@ -2,6 +2,42 @@
  # Ubuntu 20.04 + OpenVPN Server 2.4.7 + Mikrotik OVPN client 2.5  + bridge for device behind it
 Tested on Ubuntu 20.04 OpenVPN (as server) and  MikroTik RBM33G 6.49.10 (as client).
 
+## Step 0. Ubuntu OpenVPN client installation.
+ Ubuntu 20.04.  install OpenVPN client and connect
+Find and note down your local IP address and your public IP address 
+```bash
+sudo apt update && sudo apt install openvpn -y
+```
+Edit o Copy config file
+```bash
+sudo nano /etc/openvpn/client.conf
+```
+create 2 new files: cred.txt and key.txt
+
+cred.txt
+```bash
+vpn_username
+vpn_password
+```
+key.txt
+
+```bash
+private_key_password
+```
+edit config file and add 
+
+```bash
+nano  /etc/openvpn/client/client.ovpn
+```
+```bash
+auth-user-pass /etc/openvpn/client/cred.txt
+askpass /etc/openvpn/client/key.txt
+```
+
+
+https://askubuntu.com/questions/229800/how-to-auto-start-openvpn-client-on-ubuntu-cli
+
+
 ## Step 1. Ubuntu OpenVPN Server installation.
 You already have server with installed Ubuntu 20.04. Let's install OpenVPN svr!
 Find and note down your local IP address and your public IP address 
