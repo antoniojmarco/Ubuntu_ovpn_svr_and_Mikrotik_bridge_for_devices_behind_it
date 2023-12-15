@@ -284,6 +284,37 @@ IP connectivity on the public interface must be limited in the firewall. We will
   add chain=input in-interface=ether1 action=drop comment="block everything else";
 ```
 
+Use Mikrotik router as a “switch”
+
+```bash
+/interface bridge
+add name=bridge
+/interface bridge port
+add bridge=bridge interface=ether1
+add bridge=bridge interface=ether2
+add bridge=bridge interface=ether3
+add bridge=bridge interface=ether4
+add bridge=bridge interface=ether5
+# optionally: add bridge=bridge interface=wlan1
+# etc.
+#
+#  For static IP address:
+/ip address 
+add address=192.168.1.2/24 interface=bridge network=192.168.1.0
+# for internet access - ROS updates etc.
+/ip route
+add gateway=192.168.1.1
+/ip dns
+set servers=192.168.1.1 # or some other DNS server
+#
+# To run DHCP client, set thus instead:
+/ip dhcp-client
+add interface=bridge
+```
+
+
+
+
 #### Administrative Services
 
 Although the firewall protects the router from the public interface, you may still want to disable RouterOS services. Most of RouterOS administrative tools are configured at  the /ip service menu; Keep only secure ones,
