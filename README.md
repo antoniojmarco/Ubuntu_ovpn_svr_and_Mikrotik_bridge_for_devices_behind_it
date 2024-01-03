@@ -38,17 +38,14 @@ create Autostart
 
 Rename OpenVPNConfigFile.ovpn to OpenVPNConfigFile.conf
 ```bash
-sudo mv OpenVPNConfigFile.ovpn OpenVPNConfigFile.conf
-sudo nano /etc/default/openvpn
+sudo mv OpenVPNConfigFile.ovpn /etc/openvpn/client/OpenVPNConfigFile.conf
 ```
+launch service
+
 ```bash
-Uncomment AUTOSTART="all"
-```
-```bash
-sudo service openvpn start
+sudo systemctl enable openvpn-client@OpenVPNConfigFile --now
 ```
 
-https://askubuntu.com/questions/229800/how-to-auto-start-openvpn-client-on-ubuntu-cli
 
 
 ## Step 1. Ubuntu OpenVPN Server installation.
