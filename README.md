@@ -46,6 +46,11 @@ launch service
 sudo systemctl enable openvpn-client@OpenVPNConfigFile --now
 ```
 
+## Step 0b. windows OpenVPN two client installation.
+
+openvpn multiple vpn connections in windows
+
+https://poweradm.com/openvpn-multiple-vpn-connections/
 
 
 ## Step 1. Ubuntu OpenVPN Server installation.
