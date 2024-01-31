@@ -55,7 +55,6 @@ edit file:
 
 ```bash
 [Service]
-LimitNPROC=40
 Restart=always
 RestartSec=5
 ```
