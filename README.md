@@ -46,6 +46,24 @@ launch service
 sudo systemctl enable openvpn-client@OpenVPNConfigFile --now
 ```
 
+Config tun auto-reconnect
+
+```bash
+sudo systemctl edit openvpn-client@OpenVPNConfigFile.service
+```
+edit file:
+
+```bash
+[Service]
+LimitNPROC=40
+Restart=always
+RestartSec=5
+```
+```bash
+sudo systemctl daemon-reload
+```
+
+
 ## Step 0b. windows OpenVPN two client installation.
 
 openvpn multiple vpn connections in windows
